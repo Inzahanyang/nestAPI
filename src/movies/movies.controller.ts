@@ -8,6 +8,8 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { CreateMovieDto } from './dto/create-movie.dto';
+import { updateMovieDto } from './dto/update-movie.dto';
 import { Movie } from './entities/movie.entity';
 import { MoviesService } from './movies.service';
 
@@ -21,22 +23,22 @@ export class MoviesController {
   }
 
   @Get('/:id')
-  getOne(@Param('id') justID: string) {
+  getOne(@Param('id') justID: number) {
     return this.moviesService.getOne(justID);
   }
 
   @Post()
-  create(@Body() movieData) {
+  create(@Body() movieData: CreateMovieDto) {
     return this.moviesService.create(movieData);
   }
 
   @Delete('/:id')
-  remove(@Param('id') justID: string) {
+  remove(@Param('id') justID: number) {
     return this.moviesService.deleteOne(justID);
   }
 
   @Patch('/:id')
-  patch(@Param('id') justID: string, @Body() updateData) {
-    return { updatedMovie: justID, ...updateData };
+  patch(@Param('id') justID: number, @Body() updateData: updateMovieDto) {
+    return this.moviesService.update(justID, updateData);
   }
 }
